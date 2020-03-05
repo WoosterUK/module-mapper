@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>MATH module prerequisite checker</title>
+  <link rel="stylesheet" type="text/css" href="css/modules.css" />
+  <link rel="stylesheet" href="outdatedbrowser/outdatedbrowser.min.css">
+</head>
+
+<body>
+<script src="js/jquery.js"></script>
+<script src="js/jscolor.js"></script>
+<font face = "arial, verdana, sans-serif">
+<div id="outdated"></div>
+<p id="head" align=center>
+	<a href="https://repo.philipwalker.duckdns.org/repo/MODULES/index" target="_blank">source code</a> &mdash; 
+	v 2.4.1 &mdash; 
+	<a href="https://repo.philipwalker.duckdns.org/repo/MODULES/ticket" target="_blank">feedback</a>
+</p>
+
+<center>
+<h1>
+	School of Mathematics module picker, <span class="varYear"></span>
+</h1>
+</center>
+
+<div class="rTable" id="tblNotes">
+<div class="rTableRow">
+<div class="rTableHead" align="center">
+<script>
+var dic = {
+	'instructions': "Instructions",
+	'colourKey': 'Colour key',
+	'selector': "Selection tool",
+	'defunct': 'Defunct modules'
+};
+
+function tblSwitchboard(e) {
+	console.log(`tblSwitchboard called with argument ${e}`);
+	for (let k in dic) {
+		if (e == k) {
+			$(`#${k}`).show();
+		} else {
+			$(`#${k}`).hide();
+		}
+	}
+}
+
+for (let k in dic) {
+	document.write('<button type="button" onclick="{tblSwitchboard(\'' + k + '\');}" id="tbl'+k+'">' + dic[k] + '</button> ');
+}
+</script>
+</div>
+</div>
+<div class="rTableRow">
+<div class="rTableCell mainSection" id="instructions">
+<h3>Instructions</h3>
+This tool allows you to see the effects of your module choices in terms of subsequent pre-requisites. You can see which semester(s) modules run in, and how many credits they have. The module code and name are a link to the module catalogue entry, which is definitive for the module. <strong>If in doubt, check the catalogue.</strong> 
+<ul>
+<li>
+	Use the tick boxes to select or deselect modules. See the colour key for an explanation of the colours and for the option to customise the colours to your preference.
+</li>
+<li>
+	The page will work out how many credits you have taken at each level. Refer to your programme definition if you wish to know how much you need to take.
+</li>
+<li>
+	Click on the headings in the columns to re-order the table. The default is to order by module code.
+</li>
+<li>
+	Use the Reset button to reset the selection tool entirely.
+</li>
+<li>
+	Any items with a flag (<img src="images/flag.png" style="width:12px; height:12px;">) symbol have prerequisites we cannot currently read automatically. 
+	Please hover your mouse over them to read the full prerequisite and make your decisions accordingly.
+</li>
+<li>
+	Some of our modules do not run every year. You can see modules that are not running in the year specified above by the icon <img src="images/rotate.png" style = "width:16px; height:16px;">. Please note that you can still select modules not currently running, in case you are planning your studies for the year after next as well.
+</li>
+<li>
+	We try to keep our portfolio of modules fresh and up-to-date. As a result, we sometimes retire modules or change one significantly so that it is replaced by a new module. If you took a module that doesn't appear in the selection tool, the chances are it has been retired. You can find a list of recently retired modules under "Defunct modules". Select the retired modules you have studied (you will need to recognise them by module code), and the selection tool should take these into account when offering your options.
+</li>
+</ul>
+</div>
+<div class="rTableCell mainSection" id="colourKey">
+<h3>Colour key</h3>
+<p>Note that you can adjust the colour scheme by clicking on the buttons in the left-hand column.</p>
+<div class="rTable" id="colourKeyContent" style="width:100%">
+<div class="rTableRow">
+<div class="rTableCell" align="center">
+	<button id="btnModuleNeut">Available</button>
+</div>
+<div class="rTableCell">
+	Modules for which you have the pre-requisites. (This is also the page background colour.) You can select these modules. Note that your programme rules may prevent you from taking any given module. <strong>If in doubt, check the programme definition in the programme catalogue.</strong>
+</div>
+</div>
+<div class="rTableRow">
+<div class="rTableCell" align="center">
+	<button id="btnModuleUnsa">Unsatisfied</button>
+</div>
+<div class="rTableCell">
+	Modules for which you have not yet satisfied the pre-requisites. You will not be able to select them.
+</div>
+</div>
+<div class="rTableRow">
+<div class="rTableCell" align="center">
+	<button id="btnModuleChos">Selected</button>
+</div>
+<div class="rTableCell">
+	Modules that you have selected.
+</div>
+</div>
+<div class="rTableRow">
+<div class="rTableCell" align="center">
+</div>
+<div class="rTableCell">
+	Modules that are mutually exclusive with chosen modules will disappear from the table. They will re-appear if you remove the mutually exclusive modules.
+</div>
+</div>
+<div class="rTableRow">
+<div class="rTableCell" align="center">
+	<button onclick="resetColours();" style="width:100%">Reset</button>
+</div>
+<div class="rTableCell">
+	To reset the colours to the original ones.
+</div>
+</div>
+</div>
+</div>
+<div class="rTableCell mainSection" id="selector" align="center">
+<table align="center" id="tblSelector" width="100%">
+</table>
+</div>
+<div class="rTableCell mainSection" id="defunct" align="center">
+<table align="center" id="tblDefunct">
+</table>
+</div>
+</div>
+</div>
+</font>
+
+<script src="modules.js"></script>
+<script src="js/filtrex.js"></script>
+<script src="js/model.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/view.js"></script>
+
+<script src="outdatedbrowser/outdatedbrowser.min.js"></script>
+
+<script>
+	tblSwitchboard("instructions");
+// Plain Javascript
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            if (oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: '#f25648',
+        color: '#ffffff',
+        lowerThan: 'object-fit',
+        languagePath: 'outdatedbrowser/lang/en.html'
+    })
+});
+</script>
+
+</body>
+
+</html>
